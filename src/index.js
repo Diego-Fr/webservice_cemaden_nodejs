@@ -2,6 +2,7 @@ const axios = require('axios')
 const moment = require('moment')
 require('dotenv').config()
 
+var CronJob = require('cron').CronJob;
 
 let CEMADEN_TOKEN = ''
 let CEMADEN_EXPIRE
@@ -16,6 +17,7 @@ const database_port = process.env.DATABASE_PORT;
 const database_name = process.env.DATABASE_NAME;
 const cemaden_email = process.env.CEMADEN_EMAIL;
 const cemaden_pass = process.env.CEMADEN_PASS;
+const cron_pattern = process.env.CRON_PATTERN;
 
 const pgp = require('pg-promise')({
     /* initialization options */
@@ -29,6 +31,15 @@ const db = pgp({
 const cs = new pgp.helpers.ColumnSet(
     ['station_prefix_id','date_hour','value','measurement_classification_type_id','transmission_type_id','information_origin'],
     {table: 'measurements'}
+);
+
+var job_default = new CronJob(
+    cron_pattern,
+	function() {
+        start()
+	},
+	null,
+	true
 );
 
 
@@ -149,8 +160,8 @@ const mountMeasurement = (prefix, date_hour, field, value, offset) =>{
             value,
             date_hour,
             measurement_classification_type_id: 3,
-            transmission_type_id:6,
-            information_origin: 'WS-CEMADEN-TESTFR'
+            transmission_type_id:4,
+            information_origin: 'WS-CEMADEN-NODE'
         })
     }
 
@@ -213,4 +224,4 @@ const cemadenAuth = async  () =>{
     return res?.data
 }
 
-start()
+// start()
