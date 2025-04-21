@@ -69,9 +69,7 @@ const start = async () =>{
     } else {
         console.log('Aguardado próxima tentativa');
         
-    }
-
-    
+    } 
     
 }
 
@@ -103,7 +101,7 @@ const saveMeasurements = async () =>{
 const updateDateLastMeasurement = async () =>{
     let data = Object.entries(STATION_LAST_MEASUREMENT).map(([id, date_last_measurement]) => ({id:parseInt(id),  date_last_measurement: moment(date_last_measurement, "YYYY-MM-DD HH:mm").format('YYYY-MM-DD HH:mm') }));
 
-    console.log(data);
+    // console.log(data);
     
     if(data && data.length > 0){
         console.log('Atualizando "data da ultima medição" dos postos no SIBH. Qtd: ', data.length)
