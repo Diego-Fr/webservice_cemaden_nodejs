@@ -1,0 +1,22 @@
+#version: '3.3'
+services:
+  web:
+    build:
+      context: ./
+    command: node src/index.js
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "128m"
+    ports:
+      - "10004:3000"
+    environment:
+      NODE_ENV: production
+      DEBUG: nodejs-docker-express:*
+networks:
+  webservice-saisp-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.66.0.0/16

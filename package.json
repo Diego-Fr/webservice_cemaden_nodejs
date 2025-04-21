@@ -1,12 +1,11 @@
 {
-  "name": "cemaden",
+  "name": "ws-cemaden-node",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Diego Freitas",
   "license": "ISC",
   "description": "",
   "dependencies": {
