@@ -157,7 +157,7 @@ const mountMeasurement = (prefix, date_hour, field, value, offset) =>{
             // value: station_type_id === 1 ? value * 100 : value,
             value,
             date_hour,
-            measurement_classification_type_id: 3,
+            measurement_classification_type_id: station_type_id === 2 && value === 0.2 ? 4 : 3,
             transmission_type_id:4,
             information_origin: 'WS-CEMADEN-NODE'
         })
