@@ -18,6 +18,7 @@ const database_name = process.env.DATABASE_NAME;
 const cemaden_email = process.env.CEMADEN_EMAIL;
 const cemaden_pass = process.env.CEMADEN_PASS;
 const cron_pattern = process.env.CRON_PATTERN;
+const SIBH_DNS = process.env.SIBH_DNS
 
 const pgp = require('pg-promise')({
     /* initialization options */
@@ -33,14 +34,14 @@ const cs = new pgp.helpers.ColumnSet(
     {table: 'measurements'}
 );
 
-var job_default = new CronJob(
-    cron_pattern,
-	function() {
-        start()
-	},
-	null,
-	true
-);
+// var job_default = new CronJob(
+//     cron_pattern,
+// 	function() {
+//         start()
+// 	},
+// 	null,
+// 	true
+// );
 
 
 const start = async () =>{
@@ -72,6 +73,8 @@ const start = async () =>{
     } 
     
 }
+
+// start()
 
 const saveMeasurements = async () =>{
     if(MEASUREMENTS.length > 0){
@@ -157,7 +160,7 @@ const mountMeasurement = (prefix, date_hour, field, value, offset) =>{
             // value: station_type_id === 1 ? value * 100 : value,
             value,
             date_hour,
-            measurement_classification_type_id: station_type_id === 2 && value === 0.2 ? 4 : 3,
+            measurement_classification_type_id: (station_type_id === 2 && value === 0.2) ? 4 : 3,
             transmission_type_id:4,
             information_origin: 'WS-CEMADEN-NODE'
         })
@@ -168,7 +171,7 @@ const mountMeasurement = (prefix, date_hour, field, value, offset) =>{
 
 const getMeasurements = async () =>{
     
-    let start_date = moment().utc().subtract(6, 'hours').format('YYYYMMDDHHmm')
+    let start_date = moment().utc().subtract(12, 'hours').format('YYYYMMDDHHmm')
     let end_date = moment().utc().format('YYYYMMDDHHmm')
 
     let url = `https://sws.cemaden.gov.br/PED/rest/pcds/dados_rede?inicio=${start_date}&fim=${end_date}&uf=sp&rede=11`
@@ -189,7 +192,7 @@ const getMeasurements = async () =>{
 const getSibhStations = async () =>{
     let res = await axios.request({
         method: 'GET',
-        url: 'https://cth.daee.sp.gov.br/sibh/api/v2/stations?station_owner_ids[]=4'
+        url: SIBH_DNS + '/sibh/api/v2/stations?station_owner_ids[]=4'
     })
 
     res.data.forEach(station=>{
@@ -222,4 +225,4 @@ const cemadenAuth = async  () =>{
     return res?.data
 }
 
-// start()
+start()
