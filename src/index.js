@@ -177,6 +177,7 @@ const getMeasurements = async () =>{
     let url = `https://sws.cemaden.gov.br/PED/rest/pcds/dados_rede?inicio=${start_date}&fim=${end_date}&uf=sp&rede=11`
 
     let res = await axios.request({
+        proxy: false,
         method: 'get',
         url: url,
         headers:{
@@ -192,11 +193,6 @@ const getMeasurements = async () =>{
 const getSibhStations = async () =>{
     let res = await axios.request({
         proxy: false,
-        headers: {
-            "User-Agent": "SIBH-API-Client/1.0",
-            'Accept': '*/*',
-            'Connection': 'close'
-        },
         method: 'GET',
         url: SIBH_DNS + '/sibh/api/v2/stations?station_owner_ids[]=4'
     })
@@ -211,6 +207,7 @@ const cemadenAuth = async  () =>{
     let res 
     try{
         res = await axios.request({
+            proxy: false,
             url:'https://sgaa.cemaden.gov.br/SGAA/rest/controle-token/tokens',
             method:'POST',
             data:{
