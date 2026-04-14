@@ -191,6 +191,11 @@ const getMeasurements = async () =>{
 
 const getSibhStations = async () =>{
     let res = await axios.request({
+        headers: {
+            "User-Agent": "SIBH-API-Client/1.0",
+            'Accept': '*/*',
+            'Connection': 'close'
+        },
         method: 'GET',
         url: SIBH_DNS + '/sibh/api/v2/stations?station_owner_ids[]=4'
     })
