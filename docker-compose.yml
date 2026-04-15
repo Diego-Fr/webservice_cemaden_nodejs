@@ -3,7 +3,7 @@ services:
   web:
     build:
       context: ./
-    command: node -r global-agent/bootstrap src/index.js
+    command: node -r ./proxy-bootstrap src/index.js
     restart: unless-stopped
     logging:
       driver: "json-file"
