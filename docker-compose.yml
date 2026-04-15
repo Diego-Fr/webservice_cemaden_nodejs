@@ -3,20 +3,16 @@ services:
   web:
     build:
       context: ./
-    command: node src/index.js
+    command: node -r global-agent/bootstrap src/index.js
     restart: unless-stopped
     logging:
       driver: "json-file"
       options:
         max-size: "128m"
-    ports:
-      - "10004:3000"
     environment:
       NODE_ENV: production
       DEBUG: nodejs-docker-express:*
-networks:
-  webservice-saisp-network:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.66.0.0/16
+      HTTP_PROXY: http://10.1.6.20:80
+      HTTPS_PROXY: http://10.1.6.20:80
+      NO_PROXY: localhost,127.0.0.1
+      GLOBAL_AGENT_HTTP_PROXY: http://10.1.6.20:80
