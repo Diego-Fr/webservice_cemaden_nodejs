@@ -10,7 +10,6 @@ services:
       options:
         max-size: "128m"
     environment:
-      NODE_ENV: production
       DEBUG: nodejs-docker-express:*
       HTTP_PROXY: http://10.1.6.20:80
       HTTPS_PROXY: http://10.1.6.20:80

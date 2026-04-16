@@ -1,4 +1,4 @@
-const axios = require('axios')
+
 const moment = require('moment')
 require('dotenv').config()
 
@@ -19,6 +19,11 @@ const cemaden_email = process.env.CEMADEN_EMAIL;
 const cemaden_pass = process.env.CEMADEN_PASS;
 const cron_pattern = process.env.CRON_PATTERN;
 const SIBH_DNS = process.env.SIBH_DNS
+const NODE_ENV = process.env.NODE_ENV || 'development'
+
+console.log("Ambiente: " + NODE_ENV);
+
+const axios = NODE_ENV === 'development' ? require('axios') : require('../config/axios');
 
 const pgp = require('pg-promise')({
     /* initialization options */
@@ -34,14 +39,14 @@ const cs = new pgp.helpers.ColumnSet(
     {table: 'measurements'}
 );
 
-var job_default = new CronJob(
-    cron_pattern,
-	function() {
-        start()
-	},
-	null,
-	true
-);
+// var job_default = new CronJob(
+//     cron_pattern,
+// 	function() {
+//         start()
+// 	},
+// 	null,
+// 	true
+// );
 
 
 const start = async () =>{
@@ -228,4 +233,4 @@ const cemadenAuth = async  () =>{
     return res?.data
 }
 
-// start()
+start()
