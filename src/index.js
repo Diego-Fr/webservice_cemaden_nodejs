@@ -39,14 +39,14 @@ const cs = new pgp.helpers.ColumnSet(
     {table: 'measurements'}
 );
 
-// var job_default = new CronJob(
-//     cron_pattern,
-// 	function() {
-//         start()
-// 	},
-// 	null,
-// 	true
-// );
+var job_default = new CronJob(
+    cron_pattern,
+	function() {
+        start()
+	},
+	null,
+	true
+);
 
 
 const start = async () =>{
@@ -233,4 +233,4 @@ const cemadenAuth = async  () =>{
     return res?.data
 }
 
-start()
+// start()
